@@ -4,7 +4,7 @@ import {
   ICancelLeaseParams, IInvokeScriptParams, IDataParams, IIssueParams,
   ILeaseParams,
   IMassTransferParams, IOrderParams, IReissueParams, ISetAssetScriptParams, ISetScriptParams, ITransferParams,
-  ICancelOrderParams
+  ICancelOrderParams, IInvokeExpressionParams
 } from '../src/transactions'
 import {TRANSACTION_TYPE} from '@waves/ts-types'
 
@@ -133,4 +133,9 @@ export const minimalParams = {
   [TRANSACTION_TYPE.SET_SCRIPT]: setScriptMinimalParams,
   [TRANSACTION_TYPE.SET_ASSET_SCRIPT]: setAssetScriptMinimalParams,
   [TRANSACTION_TYPE.INVOKE_SCRIPT]: invokeScriptMinimalParams,
+}
+
+export const invokeExpressionMinimalParams: IInvokeExpressionParams = {
+  expression: 'base64:/wYJAARMAAAAAgkBAAAADEJvb2xlYW5FbnRyeQAAAAICAAAABHRlc3QGBQAAAANuaWxv62W3',
+
 }

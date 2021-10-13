@@ -50,6 +50,55 @@ describe('issue', () => {
     expect(validateTxSignature(tx, protoBytesMinVersion, 1)).toBeTruthy()
   })
 
+  it('Should get correct fee of NFT token', () => {
+    const tx = issue({ ...issueMinimalParams, quantity: 1, reissuable: false, decimals: 0 }, stringSeed)
+    expect(tx.fee).toEqual(100000)
+  })
+
+  it('Should not create token with incorrect quantity', () => {
+    const tx =  issue( { ...issueMinimalParams, quantity: 0 }, stringSeed)
+    expect(tx.id).toEqual('')
+   })
+
+  it('Should create not NFT token with quantity', () => {
+    const tx = issue({ ...issueMinimalParams, quantity: 1 }, stringSeed)
+    expect(tx.fee).toEqual(100000000)
+  })
+
+  it('Should create not NFT token with 0 decimal', () => {
+    const tx = issue({ ...issueMinimalParams, decimals:0 }, stringSeed)
+    expect(tx.fee).toEqual(100000000)
+  })
+
+  it('Should create not NFT token 1', () => {
+    const tx = issue({ ...issueMinimalParams, quantity: 1, reissuable: true, decimals: 0 }, stringSeed)
+    expect(tx.fee).toEqual(100000000)
+  })
+
+  it('Should create not NFT token 2', () => {
+    const tx = issue({ ...issueMinimalParams, quantity: 2, reissuable: false, decimals: 0 }, stringSeed)
+    expect(tx.fee).toEqual(100000000)
+  })
+
+  it('Should create not NFT token 3', () => {
+    const tx = issue({ ...issueMinimalParams, quantity: 1, reissuable: false, decimals: 1 }, stringSeed)
+    expect(tx.fee).toEqual(100000000)
+  })
+
+  it('Should not create token with zero fee', () => {
+    const tx = issue({ ...issueMinimalParams, fee: 0 }, stringSeed)
+    expect(tx.id).toEqual('')
+  })
+
+  it('Should not create token with negative fee', () => {
+    const tx = issue({ ...issueMinimalParams, fee: -1 }, stringSeed)
+    expect(tx.id).toEqual('')
+  })
+
+  it('Should not create token with negative quantity', () => {
+    const tx = issue({ ...issueMinimalParams, quantity: -1 }, stringSeed)
+    expect(tx.id).toEqual('')
+  })
   it('Should get correct multiSignature', () => {
     const stringSeed2 = 'example seed 2'
     const tx = issue({ ...issueMinimalParams }, [null, stringSeed, null, stringSeed2])

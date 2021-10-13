@@ -18,6 +18,26 @@ describe('reissue', () => {
     expect(validateTxSignature(tx, 2)).toBeTruthy()
   })
 
+  it('Should create with minimal fee', () => {
+    const tx = reissue({ ...reissueMinimalParams, fee: 100000 }, stringSeed)
+    expect(tx).toMatchObject({ ...reissueMinimalParams })
+  })
+
+  it('Should create with zero fee', () => {
+    const tx = reissue({ ...reissueMinimalParams, fee: 0 }, stringSeed)
+    expect(tx).toMatchObject({ ...reissueMinimalParams })
+  })
+
+  it('Should create with negative fee', () => {
+    const tx = reissue({ ...reissueMinimalParams, fee: -1 }, stringSeed)
+    expect(tx).toMatchObject({ ...reissueMinimalParams })
+  })
+
+  it('Should create with negative quantity', () => {
+    const tx = reissue({ ...reissueMinimalParams, quantity: -1 }, stringSeed)
+    expect(tx).toMatchObject({ ...reissueMinimalParams })
+  })
+
   it('Should get correct multiSignature', () => {
     const stringSeed2 = 'example seed 2'
     const tx = reissue({ ...reissueMinimalParams }, [null, stringSeed, null, stringSeed2])
