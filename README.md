@@ -375,6 +375,14 @@ export type ICommitToGenerationParams<LONG = string | number> = {
 } & IBasicParams<LONG>
 ```
 
+Only `generationPeriodStart` is required. If `endorserPublicKey` and `commitmentSignature` are not provided, the library will derive BLS key pair from the provided Waves private key and create the commitmentSignature using this key pair.
+
+```javascript
+const { commitToGeneration } = require('@waves/waves-transactions')
+const params = { generationPeriodStart: 40001 }
+const signedTx = commitToGeneration(params, 'Some seed phrase')
+```
+
 ### Orders
 Order is created the same way as transaction
 ```typescript
@@ -392,7 +400,7 @@ const signedOrder = order(params, 'Some seed ')
 ### Broadcast
 To send transaction you can use either node [REST API](https://nodes.wavesplatform.com/api-docs/index.html#!/transactions/broadcast) or [broadcast](https://wavesplatform.github.io/waves-transactions/globals.html#broadcast) helper function:
 ```javascript
-const {broadcast} =  require('@waves/waves-transactions');
+const { broadcast } =  require('@waves/node-api-js');
 const nodeUrl = 'https://nodes.wavesplatform.com';
 
 broadcast(signedTx, nodeUrl).then(resp => console.log(resp))
@@ -401,12 +409,10 @@ You can send tx to any waves node you like:. E.g.:
 * https://nodes-testnet.wavesnodes.com - waves TESTNET nodes hosted by Wavesplatform
 * https://nodes.wavesplatform.com - waves MAINNET nodes hosted by Wavesplatform
 #### Important!!!
-Most transactions require chainId as parameter, e.g: [IBurnParams](https://wavesplatform.github.io/waves-transactions/interfaces/_transactions_.iburnparams.html). By default chainId is 'W', which means MAINNET. To make transaction in TESTNET be sure to pass chainId if it is present in params interface and then send it to TESTNET node
+Most transactions require chainId as parameter, e.g: [IBurnParams](https://wavesplatform.github.io/waves-transactions/interfaces/_transactions_.iburnparams.html). By default, chainId is 'W', which means MAINNET. To make transaction in TESTNET be sure to pass chainId if it is present in params interface and then send it to TESTNET node
 
 ### Dependencies
-This library uses `@waves/ts-lib-crypto` for cryptography and `@waves/node-api-js` for interacting with node. 
-You can access them this way:
+This library uses `@waves/ts-lib-crypto` for cryptography. You can access it this way:
 ```typescript
 const libCrypto = require('@waves/waves-transactions').libs.crypto
-const libApi = require('@waves/waves-transactions').libs.nodeApiJs
 ```
