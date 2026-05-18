@@ -69,8 +69,7 @@ export type {
 
 const libs = {
   crypto,
-  marshall,
-  // nodeApiJs
+  marshall
 }
 
 export {
